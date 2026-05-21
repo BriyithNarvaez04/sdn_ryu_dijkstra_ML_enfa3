@@ -489,6 +489,6 @@ El controlador busca los tres artefactos en el directorio de trabajo actual. Eje
 
 ---
 
-> 📺 **Demo y tutoriales:**
-> - [Tutorial completo de instalación y uso](https://www.youtube.com/watch?v=ENLACE_TUTORIAL)
+>  **Demo y tutoriales:**
+> - [Tutorial de uso](https://www.youtube.com/watch?v=ENLACE_TUTORIAL)
 > - [Vista en dispositivo móvil](https://www.youtube.com/watch?v=ENLACE_MOVIL)
