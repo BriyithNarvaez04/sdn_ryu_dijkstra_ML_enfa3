@@ -2,7 +2,7 @@
 
 > **Demo y tutoriales:**
 > - [Tutorial de uso](https://www.youtube.com/watch?v=ENLACE_TUTORIAL) — guía paso a paso 
-> - [Vista en dispositivo móvil](https://www.youtube.com/watch?v=ENLACE_MOVIL) — demostración del dashboard responsivo en teléfono
+> - [Vista en dispositivo móvil](https://youtu.be/w_ZQhPKVjCA=ENLACE_MOVIL) — demostración del dashboard responsivo en teléfono
 
 ---
 
