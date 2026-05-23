@@ -341,7 +341,8 @@ Panel de monitoreo de rendimiento en tiempo real.
 - Gauge strip SVG de utilización por switch con color semafórico (verde → amarillo → rojo).
 
 <!-- IMAGEN: captura de pantalla de la pestaña Métricas -->
-![Pestaña Métricas](screenshots/tab_metrics.png)
+![Pestaña Métricas](media/tab_metrics.png)
+![Pestaña Métricas](media/tab_metrics_2.png)
 
 ---
 
@@ -355,7 +356,7 @@ Visualizaciones del clasificador de tráfico en tiempo real.
 - Tabla de predicciones activas: tipo, switch, puerto, peso de enlace y throughput.
 
 <!-- IMAGEN: captura de pantalla de la pestaña Predicciones ML -->
-![Pestaña Predicciones ML](screenshots/tab_ml.png)
+![Pestaña Predicciones ML](media/tab_ml.png)
 
 ---
 
@@ -373,7 +374,7 @@ Métricas detalladas para análisis profundo.
 - Error rate bar chart (TX y RX) por switch.
 
 <!-- IMAGEN: captura de pantalla de la pestaña Avanzado -->
-![Pestaña Avanzado](screenshots/tab_advanced.png)
+![Pestaña Avanzado](media/tab_advanced.png)
 
 ---
 
@@ -390,7 +391,8 @@ Panel de administración de hosts y políticas QoS.
 - Panel de información de red con la IP del servidor, puerto y URLs de acceso para otros dispositivos en la LAN, con botón de copia al portapapeles.
 
 <!-- IMAGEN: captura de pantalla de la pestaña Control de Red -->
-![Pestaña Control de Red](screenshots/tab_control.png)
+![Pestaña Control de Red](media/tab_control.png)
+![Pestaña Control de Red](media/tab_control_2.png)
 
 ---
 
