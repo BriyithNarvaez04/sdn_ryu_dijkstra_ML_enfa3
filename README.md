@@ -45,6 +45,7 @@ La topología replica 23 switches interconectados con una densidad de enlaces ca
 | `style.css` | Hoja de estilos del dashboard: tema oscuro con paleta azul GÉANT, diseño responsivo compatible con móviles y tablets, estilos de tablas, badges de estado, chips de URL de acceso y animaciones de barra de estado. |
 | `build_dataset.py` | Preprocesamiento del dataset. Une los CSV de captura por clase, aplica limpieza de contadores desbordados, filtra tráfico de control OpenFlow, elimina artefactos de asimetría de puertos, balancea las clases al mínimo común y exporta `dataset_balanced.csv`. |
 | `entrenamiento.py` | Entrena el clasificador RandomForest sobre `dataset_balanced.csv`, validación cruzada estratificada de 5 folds y análisis de importancia de features. Exporta los tres artefactos necesarios para el controlador. |
+| `monitoring.py` | Obtiene los datos de archivos .csv que permitirán generar el archivo de `dataset_balanced.csv`. |
 
 ### Artefactos del Modelo ML
 
