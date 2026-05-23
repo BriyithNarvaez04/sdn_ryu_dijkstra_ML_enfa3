@@ -378,7 +378,31 @@ Métricas detalladas para análisis profundo.
 
 ---
 
-### Pestaña 5 — Control de Red
+### Pestaña 5 — Rutas Dijkstra
+ 
+Herramienta interactiva de consulta de rutas óptimas entre switches. Los pesos son dinámicos y cambian en cada ciclo según el tráfico clasificado por ML.
+ 
+- **Formulario de consulta:** selector de nodo origen y nodo destino (switches 1–23) con botón de cálculo inmediato.
+- **Resultado de ruta:** camino calculado paso a paso con el costo total acumulado y los pesos individuales de cada salto.
+- **Rutas cacheadas:** tabla de rutas precalculadas por el controlador entre los pares de switches más consultados, actualizadas en cada ciclo de monitoreo.
+<!-- IMAGEN: captura de pantalla de la pestaña Rutas Dijkstra -->
+![Pestaña Rutas Dijkstra](media/tab_routes.png)
+ 
+---
+ 
+### Pestaña 6 — Políticas
+ 
+Editor de parámetros que controlan cómo el controlador traduce las predicciones ML en pesos de enlace para Dijkstra.
+ 
+- **Editor de políticas:** formulario por clase de tráfico (VIDEO, HTTP, GAMING, ICMP) con los factores `throughput_factor`, `jitter_factor` y `burst_factor`. Los cambios se aplican en el próximo ciclo de monitoreo sin reiniciar el controlador.
+- **Botones de acción:** aplicar los cambios al controlador o recargar los valores activos actuales.
+- **Toggle del motor de políticas:** switch para activar o desactivar globalmente el enrutamiento dinámico basado en ML. Cuando está desactivado, todos los enlaces usan peso uniforme.
+<!-- IMAGEN: captura de pantalla de la pestaña Políticas -->
+![Pestaña Políticas](media/tab_policy.png)
+ 
+---
+ 
+### Pestaña 7 — Control de Red
 
 Panel de administración de hosts y políticas QoS.
 
