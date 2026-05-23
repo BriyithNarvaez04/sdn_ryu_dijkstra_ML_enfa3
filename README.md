@@ -13,12 +13,6 @@ La topología replica 23 switches interconectados con una densidad de enlaces ca
 ![Arquitectura](media/arquitectura.png)
 ![Tecnologías](media/tecnologias.png)
 
-```
-
-```
-
----
-
 ## Tabla de Contenidos
 
 1. [Inventario de Archivos](#1-inventario-de-archivos)
