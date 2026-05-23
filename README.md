@@ -44,7 +44,7 @@ La topología replica 23 switches interconectados con una densidad de enlaces ca
 | `script.js` | Lógica frontend completa: visualización de topología con D3.js (simulación de fuerzas), más de doce gráficas Chart.js (throughput, utilización, RX/TX, error rates, radar ML, etc.), polling automático de todos los endpoints, gestión de rutas Dijkstra y control de hosts (bloquear/permitir). |
 | `style.css` | Hoja de estilos del dashboard: tema oscuro con paleta azul GÉANT, diseño responsivo compatible con móviles y tablets, estilos de tablas, badges de estado, chips de URL de acceso y animaciones de barra de estado. |
 | `build_dataset.py` | Preprocesamiento del dataset. Une los CSV de captura por clase, aplica limpieza de contadores desbordados, filtra tráfico de control OpenFlow, elimina artefactos de asimetría de puertos, balancea las clases al mínimo común y exporta `dataset_balanced.csv`. |
-| `entrenamiento.py` | Entrena el clasificador RandomForest sobre `dataset_balanced.csv` con 200 árboles, validación cruzada estratificada de 5 folds y análisis de importancia de features. Exporta los tres artefactos necesarios para el controlador. |
+| `entrenamiento.py` | Entrena el clasificador RandomForest sobre `dataset_balanced.csv`, validación cruzada estratificada de 5 folds y análisis de importancia de features. Exporta los tres artefactos necesarios para el controlador. |
 
 ### Artefactos del Modelo ML
 
