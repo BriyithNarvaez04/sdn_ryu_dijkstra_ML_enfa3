@@ -1,7 +1,7 @@
 # SDN GÉANT Dashboard
 
 > **Demo y tutoriales:**
-> - [Tutorial de uso](https://www.youtube.com/watch?v=ENLACE_TUTORIAL) — guía paso a paso 
+> - [Tutorial de uso](https://youtu.be/tJaUL4AajNE=ENLACE_TUTORIAL) — guía paso a paso 
 > - [Vista en dispositivo móvil](https://youtu.be/w_ZQhPKVjCA=ENLACE_MOVIL) — demostración del dashboard responsivo en teléfono
 
 ---
@@ -486,9 +486,3 @@ El controlador busca los tres artefactos en el directorio de trabajo actual. Eje
 - Verificar que el servidor Node.js alcanza la API Flask: `curl http://<IP-VM2>:8888/api/status`.
 - Si las IPs no están configuradas en `server.js`, pasarlas como variables de entorno al lanzar: `RYU_FLASK=http://<IP-VM2>:8888 node server.js`.
 - Revisar que el puerto 8888 no está bloqueado por firewall en la VM 2.
-
----
-
->  **Demo y tutoriales:**
-> - [Tutorial de uso](https://www.youtube.com/watch?v=ENLACE_TUTORIAL)
-> - [Vista en dispositivo móvil](https://www.youtube.com/watch?v=ENLACE_MOVIL)
