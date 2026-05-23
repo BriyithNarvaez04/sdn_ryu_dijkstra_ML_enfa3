@@ -305,7 +305,7 @@ El modelo clasifica el tráfico a partir de **11 features** extraídas de las es
 > La figura `feature_importance.png` generada por `entrenamiento.py` muestra la contribución relativa de cada variable al modelo. Coloca aquí la imagen para referencia visual:
 
 <!-- IMAGEN: feature_importance.png generada por entrenamiento.py -->
-![Importancia de variables del modelo RandomForest](feature_importance.png)
+![Importancia de variables del modelo RandomForest](media/feature_importance.png)
 
 **Clases:** `VIDEO` · `HTTP` · `GAMING` · `ICMP`
 
