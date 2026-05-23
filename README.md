@@ -10,6 +10,9 @@ Sistema de monitoreo y control en tiempo real para redes definidas por software 
 
 La topología replica 23 switches interconectados con una densidad de enlaces característica de redes de tránsito de alta capacidad. Cada switch tiene asociado un host, y el sistema calcula rutas óptimas mediante el algoritmo de Dijkstra cuyos pesos de enlace se actualizan dinámicamente según el tipo de tráfico clasificado por un modelo RandomForest (VIDEO, HTTP, GAMING, ICMP).
 
+![Arquitectura](media/arquitectura.png)
+![Tecnologías](media/tecnologias.png)
+
 ```
 
 ```
