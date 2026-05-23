@@ -325,7 +325,8 @@ Muestra el grafo de la red GÉANT en tiempo real mediante una simulación de fue
 - Tabla de rutas precalculadas con los caminos más frecuentes.
 
 <!-- IMAGEN: captura de pantalla de la pestaña Topología -->
-![Pestaña Topología](screenshots/tab_topology.png)
+![Pestaña Topología](media/tab_topology.png)
+![Pestaña Topología con Dijkstra](media/tab_topology_2.png)
 
 ---
 
