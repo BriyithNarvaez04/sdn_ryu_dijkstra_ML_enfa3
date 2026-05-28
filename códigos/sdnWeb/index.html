@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDN GÉANT — Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>
+        /**
+         * @file index.html
+         * @brief Interfaz de usuario (Frontend) del SDN GÉANT Dashboard.
+         * @details Archivo principal HTML5 que define la estructura visual del panel de control.
+         * Este frontend es servido por Node.js y se comunica con la API REST a través de 
+         * peticiones asíncronas (definidas en `script.js`). Utiliza D3.js para renderizar 
+         * la topología interactiva y Chart.js para los gráficos de métricas.
+         * * @section tabs_sec Secciones del Dashboard (Tabs)
+         * - **Topología**: Visualización en tiempo real de switches y enlaces usando grafos de fuerza.
+         * - **Métricas**: Gráficos de barras y líneas (Throughput, Jitter, Packet Loss).
+         * - **Machine Learning**: Gráficos circulares con la clasificación de tráfico del modelo predictivo.
+         * - **Rutas Dijkstra**: Interfaz de consulta de los caminos óptimos calculados por el controlador.
+         * - **Políticas**: Formulario interactivo para modificar los pesos (QoS) en caliente.
+         * - **Control de Red**: Tabla dinámica para bloquear o permitir hosts mediante OpenFlow.
+         */
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>SDN GÉANT</h1>
+            <p class="subtitle">Plataforma de Control y Monitoreo en Tiempo Real</p>
+            <div class="status-bar">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Conectando...</span>
+                <span class="status-sep">|</span>
+                <span id="statusSwitches">— switches</span>
+                <span class="status-sep">|</span>
+                <span id="statusLinks">— enlaces</span>
+                <span class="status-sep">|</span>
+                <span id="statusTime">—</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="topology">Topología</button>
+        <button class="tab-btn" data-tab="metrics">Métricas</button>
+        <button class="tab-btn" data-tab="ml">Machine Learning</button>
+        <button class="tab-btn" data-tab="routes">Rutas Dijkstra</button>
+        <button class="tab-btn" data-tab="policy">Políticas</button>
+        <button class="tab-btn" data-tab="control">Control de Red</button>
+    </nav>
+
+    <main>
+
+        <section class="tab-panel active" id="tab-topology">
+            <h2>Topología de Red GÉANT</h2>
+            <p class="section-desc">Visualización en tiempo real de switches, enlaces y pesos dinámicos calculados por ML + Dijkstra.</p>
+            <div class="topo-container">
+                <div id="topoGraph"></div>
+                <div class="topo-legend">
+                    <div class="legend-item"><span class="legend-dot green"></span> Peso bajo (1–3)</div>
+                    <div class="legend-item"><span class="legend-dot yellow"></span> Peso medio (3–8)</div>
+                    <div class="legend-item"><span class="legend-dot red"></span> Peso alto (&gt;8)</div>
+                    <div class="legend-item"><span class="legend-dot blue"></span> Ruta activa</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-panel" id="tab-metrics">
+            <h2>Estado de Enlaces y Puertos</h2>
+            <p class="section-desc">
+                Throughput, pérdida real (rx_dropped + tx_dropped OpenFlow), utilización del enlace,
+                jitter estimado, PPS, errores y peso dinámico por switch y puerto. Agrupado por switch.
+            </p>
+
+            <div class="metrics-summary" id="metricsSummary"></div>
+
+            <h2 style="margin-top:50px;">Resumen por Switch</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <div class="chart-label">Throughput Total por Switch (Mbps)</div>
+                    <canvas id="bwChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-label">Pérdida Real de Paquetes por Switch (%)</div>
+                    <canvas id="lossChart"></canvas>
+                </div>
+            </div>
+
+            <h2 style="margin-top:50px;">Histórico de Throughput (Mbps)</h2>
+            <div id="chart-container">
+                <canvas id="historyChart"></canvas>
+            </div>
+
+            <h2 style="margin-top:50px;">Histórico de Pérdida de Paquetes (%)</h2>
+            <div id="chart-container">
+                <canvas id="historyLossChart"></canvas>
+            </div>
+
+            <h2 style="margin-top:50px;">Histórico de Utilización de Enlace (%)</h2>
+            <div id="chart-container">
+                <canvas id="historyUtilChart"></canvas>
+            </div>
+        </section>
+
+        <section class="tab-panel" id="tab-ml">
+            <h2>Predicciones del Modelo ML</h2>
+            <p class="section-desc">Clasificación de tráfico en tiempo real usando el modelo entrenado (.pkl). El tipo de tráfico detectado determina el peso dinámico del enlace.</p>
+
+            <div class="ml-overview" id="mlOverview"></div>
+
+            <h2 style="margin-top:50px;">Distribución de Tipos de Tráfico</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <canvas id="trafficPieChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-label">Pesos Generados por Tipo de Tráfico</div>
+                    <canvas id="weightBarChart"></canvas>
+                </div>
+            </div>
+
+            <h2 style="margin-top:50px;">Tabla de Predicciones por Puerto</h2>
+            <div id="mlTable"></div>
+        </section>
+
+        <section class="tab-panel" id="tab-routes">
+            <h2>Cálculo de Rutas Dijkstra</h2>
+            <p class="section-desc">Consulta rutas óptimas entre switches. Los pesos son dinámicos: cambian según el tráfico clasificado por ML.</p>
+
+            <div class="route-query">
+                <div class="route-form">
+                    <div class="form-group">
+                        <label>Nodo Origen</label>
+                        <input type="number" id="routeSrc" min="1" max="23" value="1" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Nodo Destino</label>
+                        <input type="number" id="routeDst" min="1" max="23" value="10" placeholder="10">
+                    </div>
+                    <button class="btn-primary" onclick="queryRoute()">Calcular Ruta</button>
+                </div>
+                <div id="routeResult"></div>
+            </div>
+
+            <h2 style="margin-top:50px;">Rutas Cacheadas</h2>
+            <div id="cachedRoutes"></div>
+        </section>
+
+        <section class="tab-panel" id="tab-policy">
+            <h2>Configuración de Políticas de Peso</h2>
+            <p class="section-desc">Modifica dinámicamente los parámetros que usa el controlador para calcular pesos. Los cambios se aplican en el próximo ciclo de monitoreo.</p>
+
+            <div id="policyEditor"></div>
+
+            <div class="policy-actions">
+                <button class="btn-primary" onclick="savePolicies()">Aplicar Políticas</button>
+                <button class="btn-secondary" onclick="loadPolicies()">Recargar</button>
+                <div id="policyStatus"></div>
+            </div>
+
+            <div class="policy-toggle">
+                <h2>Estado del Motor de Políticas</h2>
+                <div class="toggle-row">
+                    <span>Políticas dinámicas activas</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="policyEnabled" onchange="togglePolicy()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-panel" id="tab-control">
+            <h2>Control de Red</h2>
+            <p class="section-desc">
+                Gestión de acceso por host. Los 23 hosts de la topología GÉANT
+                aparecen automáticamente al conectar el controlador.
+                Los hosts marcados como "L2 detectado" han generado tráfico real;
+                los de "Topología" se infieren de la topología configurada.
+            </p>
+
+            <div class="control-toolbar">
+                <div class="search-wrapper">
+                    <input
+                        type="text"
+                        id="hostFilterInput"
+                        placeholder="Filtrar por IP, switch o MAC..."
+                        oninput="hostFilter = this.value; renderHostsTable();"
+                    >
+                </div>
+                <div class="control-actions">
+                    <button class="btn-secondary" onclick="pollHosts()">↻ Actualizar</button>
+                    <span id="hostActionMsg"
+                          style="margin-left:16px; font-size:0.9rem; transition:opacity 0.5s;"></span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>ℹ Funcionamiento:</strong>
+                Los 23 hosts aparecen desde el inicio basados en la topología.
+                Cuando un host genera tráfico, pasa a "L2 detectado" con su MAC real.
+                Bloquear instala una drop rule OpenFlow (prioridad 500) en el puerto del host.
+            </div>
+
+            <div id="hostsTableContainer">
+                <div class="empty-state">
+                    Conectando con el controlador...
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <span>SDN GÉANT Control Platform</span>
+        <span class="status-sep">|</span>
+        <span>OpenFlow 1.3 + Ryu + ML + Dijkstra</span>
+        <span class="status-sep">|</span>
+        <span id="footerTime">—</span>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
